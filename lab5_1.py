@@ -95,6 +95,47 @@ class LinkedList:
                     e = a
 
 
+    def merge_list(self, start, mid, end):
+        left = []
+        for l in range(start, mid):
+            left.append(L.get_value(l))
+        right = []
+        for r in range(mid, end):
+            right.append(L.get_value(r))
+        k = start
+        i = 0
+        j = 0
+        while (start + i < mid and mid + j < end):
+            if (left[i] <= right[j]):
+                L.set_value(k, left[i])
+                i = i + 1
+            else:
+                L.set_value(k, right[j])
+                j = j + 1
+            k = k + 1
+        if start + i < mid:
+            while k < end:
+                L.set_value(k, left[i])
+                i = i + 1
+                k = k + 1
+        else:
+            while k < end:
+                L.set_value(k, right[j])
+                j = j + 1
+                k = k + 1
+
+    def merge_sort(self, start, end):
+        if end - start > 1:
+            mid = (start + end) // 2
+            thread_s1 = Thread(target=self.merge_sort, args=(start, mid,))
+            thread_s2 = Thread(target=self.merge_sort, args=(mid, end,))
+            thread_l = Thread(target=self.merge_list, args=(start, mid, end,))
+            thread_s1.start()
+            thread_s2.start()
+            thread_l.start()
+            thread_s1.join()
+            thread_s2.join()
+            thread_l.join()
 
     def len(self):
         length = 0
@@ -168,6 +209,6 @@ if __name__=="__main__":
     L.add(5)
     L.add(4)
     print(L)
-
+    L.merge_sort(0, L.len())
     print('Sorted list: ', end='')
     print(L)

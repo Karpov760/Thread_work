@@ -129,13 +129,14 @@ class LinkedList:
             mid = (start + end) // 2
             thread_s1 = Thread(target=self.merge_sort, args=(start, mid,))
             thread_s2 = Thread(target=self.merge_sort, args=(mid, end,))
-            thread_l = Thread(target=self.merge_list, args=(start, mid, end,))
+
             thread_s1.start()
             thread_s2.start()
-            thread_l.start()
             thread_s1.join()
             thread_s2.join()
-            thread_l.join()
+
+            self.merge_list(start, mid, end, )
+
 
     def len(self):
         length = 0
@@ -201,14 +202,11 @@ class LinkedList:
 
 if __name__=="__main__":
     L = LinkedList()
-    #for i in range(0, 10):
-    #    L.add(randint(0, 20))
-    L.add(1)
-    L.add(2)
-    L.add(3)
-    L.add(5)
-    L.add(4)
+    for i in range(0, 10):
+        L.add(randint(0, 20))
+
     print(L)
     L.merge_sort(0, L.len())
     print('Sorted list: ', end='')
     print(L)
+
